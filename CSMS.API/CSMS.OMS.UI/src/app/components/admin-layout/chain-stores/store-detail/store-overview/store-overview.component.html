@@ -1,0 +1,92 @@
+<nav class="breadcrumb pr-0">
+    <div class="row w-100 pl-2">
+      <div class="col-sm-12 col-lg-10">
+        <div class="row">
+          <div class="col-md-4 px-1">
+            <label>Start date</label>
+            <app-date-picker (selectedDateEmit)="startTime = $event" [setDate]="startTime" [required]="true"
+              [maxDate]="today">
+            </app-date-picker>
+          </div>
+          <div class="col-md-4 px-1">
+            <label>End date</label>
+            <app-date-picker (selectedDateEmit)="endTime = $event" [setDate]="endTime" [required]="true"
+              [maxDate]="today">
+            </app-date-picker>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-12 col-lg-2 text-right pr-0">
+        <br>
+        <button type="submit" class="btn btn-primary mt-1" (click)="getData()">Search</button>
+      </div>
+    </div>
+  </nav>
+  
+  <app-loading-spinner *ngIf="!revenueData && !exportHistory && !listPartner"></app-loading-spinner>
+  
+  <div *ngIf="revenueData && exportHistory && listPartner" class="row bg-white mb-3 mx-1" style="border-radius: 12px;">
+    <div class="col-md-5 p-0">
+      <div class="card-header bg-white border-none">
+        <h5 class="card-title">Revenue </h5>
+        <p class="card-category">
+          <i class="fa fa-calendar"></i>
+          {{parseDateToString(revenueData?.startDate)}} -
+          {{parseDateToString(revenueData?.endDate)}}
+        </p>
+      </div>
+      <div class="card-body text-center">
+        <h1 class="mt-0 mb-1">{{formatCurrency(storeDetail.totalRevenue - priceImportMaterialTotal)}}</h1>
+        <h5 class="text-secondary">Total Proceeds</h5>
+      </div>
+    </div>
+    <div class="col-md-7 row p-0 pt-3">
+      <div class="col-md-6 text-center center-col">
+        <h2 class="mt-0 mb-1">{{storeDetail.totalInvoices}}</h2>
+        <p class="text-secondary">Number of transactions</p>
+      </div>
+      <div class="col-md-6 text-center center-col">
+        <h2 class="mt-0 mb-1">{{formatCurrency(storeDetail.totalRevenue)}}</h2>
+        <p class="text-secondary">Total income</p>
+      </div>
+      <div class="col-md-6 text-center center-col">
+        <h2 class="mt-0 mb-1">{{countTime?.length}}</h2>
+        <p class="text-secondary">Total number imported material</p>
+      </div>
+      <div class="col-md-6 text-center center-col">
+        <h2 class="mt-0 mb-1">{{formatCurrency(priceImportMaterialTotal)}}</h2>
+        <p class="text-secondary">Total outcome</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card ">
+        <div class="card-header ">
+          <h5 class="card-title">Revenue by day</h5>
+          <p class="card-category">
+            <i class="fa fa-calendar"></i>
+            {{parseDateToString(revenueData?.startDate)}} - {{parseDateToString(revenueData?.endDate)}}
+          </p>
+        </div>
+        <div class="card-body">
+          <canvas id=chartStores width="400" height="100"></canvas>
+          <p class="text-center pt-3">Income and outcome by day(Unit: VND)</p>
+        </div>
+        <div class="card-footer">
+          <div class="chart-legend">
+            <span *ngFor="let item of typeRevenue; let i = index;" class="d-inline-block pl-1">
+              <i class="fa fa-circle" [style.color]="ColorTable[i]"></i> {{item}}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+  <div *ngIf="loading && revenueData" id="loading">
+    <img id="loading-image" src="assets/img/loading/loading.gif" alt="Loading..." />
+  </div>
+  

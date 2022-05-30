@@ -1,0 +1,13 @@
+{
+  "profiles": {
+    "WarehouseApi": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "DATABASE_CONNECTION": "Server=.;Database=CSMS.DB.Warehouse;Trusted_Connection=True;MultipleActiveResultSets=True;"
+      },
+      "applicationUrl": "https://localhost:53042;http://localhost:53043"
+    }
+  }
+}

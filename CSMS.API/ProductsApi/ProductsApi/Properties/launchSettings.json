@@ -1,0 +1,13 @@
+{
+  "profiles": {
+    "ProductsApi": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "DATABASE_CONNECTION": "Server=.;Database=CSMS.DB.Products;Trusted_Connection=True;MultipleActiveResultSets=True;"
+      },
+      "applicationUrl": "https://localhost:52836;http://localhost:52837"
+    }
+  }
+}

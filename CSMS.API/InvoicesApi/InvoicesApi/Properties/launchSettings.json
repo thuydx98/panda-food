@@ -1,0 +1,13 @@
+{
+  "profiles": {
+    "InvoicesApi": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "DATABASE_CONNECTION": "Server=.;Database=CSMS.DB.Invoices;Trusted_Connection=True;MultipleActiveResultSets=True;"
+      },
+      "applicationUrl": "https://localhost:53015;http://localhost:53016"
+    }
+  }
+}

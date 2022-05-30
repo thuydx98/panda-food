@@ -1,0 +1,1 @@
+sqlcmd -S "127.0.0.1" -i script.sql -U sa -P P@nDaF00d

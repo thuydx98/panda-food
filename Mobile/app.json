@@ -1,0 +1,44 @@
+{
+  "expo": {
+    "name": "Panda Food",
+    "slug": "MEC",
+    "privacy": "public",
+    "platforms": [
+      "ios",
+      "android"
+    ],
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "android": {
+      "package": "com.panda.thuydx",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyAqVlPCEiAhBCIzqyAsOxlXAEDtHV7wdOE"
+        }
+      }
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.panda.thuydx",
+      "config": {
+        "googleMapsApiKey": "AIzaSyAqVlPCEiAhBCIzqyAsOxlXAEDtHV7wdOE"
+      }
+    },
+    "description": "",
+    "entryPoint": "node_modules/expo/AppEntry.js"
+  },
+  "displayName": "Panda Food",
+  "name": "PandaFood"
+}

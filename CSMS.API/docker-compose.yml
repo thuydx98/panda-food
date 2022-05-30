@@ -1,0 +1,170 @@
+version: "3"
+
+services:
+  ui-oms:
+    build:
+      context: ./CSMS.OMS.UI
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - 2001:80
+
+  socket-io:
+    build:
+      context: ./socket-server
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - 4001:80
+    networks:
+      - csms_network
+
+  oms-gateway:
+    build:
+      context: ./OMS.GatewayApi
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - 3001:80
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+    depends_on:
+      - db
+    networks:
+      - csms_network
+
+  ec-gateway:
+    build:
+      context: ./EC.GatewayApi
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - 3002:80
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+    depends_on:
+      - db
+    networks:
+      - csms_network
+
+  users-api:
+    build:
+      context: ./UsersApi
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - 50001:80
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      DATABASE_CONNECTION: Server=host.docker.internal;Database=CSMS.DB.Users;User id=sa;Password=P@nDaF00d;
+    depends_on:
+      - db
+    networks:
+      - csms_network
+
+  cdn-api:
+    build:
+      context: ./CdnApi
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - 50002:80
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      DATABASE_CONNECTION: Server=host.docker.internal;Database=CSMS.DB.Cdn;User id=sa;Password=P@nDaF00d;
+    depends_on:
+      - db
+    networks:
+      - csms_network
+
+  system-api:
+    build:
+      context: ./SystemApi
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - 50003:80
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      DATABASE_CONNECTION: Server=host.docker.internal;Database=CSMS.DB.System;User id=sa;Password=P@nDaF00d;
+    depends_on:
+      - db
+    networks:
+      - csms_network
+
+  products-api:
+    build:
+      context: ./ProductsApi
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - 50004:80
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      DATABASE_CONNECTION: Server=host.docker.internal;Database=CSMS.DB.Products;User id=sa;Password=P@nDaF00d;
+    depends_on:
+      - db
+    networks:
+      - csms_network
+
+  promotions-api:
+    build:
+      context: ./PromotionsApi
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - 50005:80
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      DATABASE_CONNECTION: Server=host.docker.internal;Database=CSMS.DB.Promotions;User id=sa;Password=P@nDaF00d;
+    depends_on:
+      - db
+    networks:
+      - csms_network
+
+  invoices-api:
+    build:
+      context: ./InvoicesApi
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - 50006:80
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      DATABASE_CONNECTION: Server=host.docker.internal;Database=CSMS.DB.Invoices;User id=sa;Password=P@nDaF00d;
+    depends_on:
+      - db
+    networks:
+      - csms_network
+
+  warehouse-api:
+    build:
+      context: ./WarehouseApi
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - 50007:80
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      DATABASE_CONNECTION: Server=host.docker.internal;Database=CSMS.DB.Warehouse;User id=sa;Password=P@nDaF00d;
+    depends_on:
+      - db
+    networks:
+      - csms_network
+
+  db:
+    container_name: csms-sql-server
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    restart: always
+    ports:
+      - 1433:1433
+    environment:
+      SA_PASSWORD: P@nDaF00d
+      ACCEPT_EULA: Y
+    networks:
+      - csms_network
+    volumes:
+      - ./data:/var/opt/mssql/data
+
+networks:
+  csms_network:
