@@ -54,9 +54,20 @@
         }
       ],
       "UpstreamPathTemplate": "/promotions-api/{catchAll}"
+    },
+    {
+      "DownstreamPathTemplate": "/api/{catchAll}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          "Port": 50006
+        }
+      ],
+      "UpstreamPathTemplate": "/invoices-api/{catchAll}"
     }
   ],
   "GlobalConfiguration": {
-    "BaseUrl": "http://localhost:3002"
+    "BaseUrl": "http://host.docker.internal"
   }
 }

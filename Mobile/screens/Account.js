@@ -35,27 +35,27 @@ class Account extends React.Component {
             this.props.getInfoFromAccessToken(authData.token);
         }
 
-        if (userDetails && !coins) {
+        if (authData.isLoggedIn && userDetails && !coins) {
             this.props.getCoins(userDetails.id);
         }
 
         this.socket = io('http://10.0.2.2:4001');
         this.socket.emit('getOrder', 'order');
         this.socket.on('document', data => {
-            console.log(data);
-            if(data.orderUserId === userDetails.id) {
+            if (authData.isLoggedIn && data?.orderUserId === userDetails?.id) {
                 this.onRefresh(false);
             } 
-       });
+        });
 
         this.onRefresh();
     }
 
     onRefresh = async (showLoading = true) => {
-        const { getUser: { userDetails } } = this.props;
-        this.props.getCoins(userDetails.id);
-        this.setState({ refreshing: showLoading });
+        const { authData, getUser: { userDetails } } = this.props;
+        if (!authData.isLoggedIn) return;
 
+        userDetails && this.props.getCoins(userDetails.id);
+        this.setState({ refreshing: showLoading });
         const response = await orderService.getListOrderByUserId(userDetails.id);
         if (response.status === 200) {
             this.setState({
@@ -72,6 +72,12 @@ class Account extends React.Component {
     }
 
     onLogout = () => {
+        this.setState({
+            totalPending: 0,
+            totalCooking: 0,
+            totalShipping: 0,
+            totalCompleted: 0
+        });
         this.props.logoutUser();
     }
 
@@ -106,7 +112,7 @@ class Account extends React.Component {
                 </View>
 
                 <ScrollView refreshControl={
-                    <RefreshControl refreshing={this.state.refreshing} onRefresh={this.onRefresh.bind(this)} />
+                    <RefreshControl refreshing={userDetails?.id && this.state.refreshing} onRefresh={this.onRefresh.bind(this)} />
                 }>
                     {userDetails ?
                         <View style={{ marginBottom: 5 }}>

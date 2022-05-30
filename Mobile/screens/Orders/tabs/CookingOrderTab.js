@@ -74,7 +74,7 @@ export default class CookingOrderTab extends React.Component {
             }]}>
                 {this.props.orders.length === 0 && <NotFound content='orders' />}
 
-                {this.props.orders.map(order => {
+                {this.props.orders?.map(order => {
                     return (
                         <TouchableOpacity
                             key={order.id}

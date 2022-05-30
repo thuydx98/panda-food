@@ -35,7 +35,9 @@ class OrderModal extends React.Component {
             messageForDelivery: '',
             store: null,
             distance: Number.MAX_SAFE_INTEGER
-        }
+        };
+
+        this.toastRef = React.createRef();
     }
 
     componentDidMount = async () => {
@@ -230,7 +232,7 @@ class OrderModal extends React.Component {
     onOrder = async () => {
 
         if (!this.state.address) {
-            this.refs.toast.show('Please choose your shipping address', 2000);
+            this.toastRef.current.show('Please choose your shipping address', 2000);
             return;
         }
 
@@ -290,7 +292,7 @@ class OrderModal extends React.Component {
             });
         } else {
             this.setState({ loading: true });
-            this.refs.toast.show('Error! Please check your internet connection.', 2000);
+            this.toastRef.current.show('Error! Please check your internet connection.', 2000);
         }
     }
 
@@ -482,7 +484,7 @@ class OrderModal extends React.Component {
                         </View>
                         <View style={{ flexDirection: 'row', paddingVertical: 10, borderTopColor: '#d4d4d4', borderTopWidth: 0.5 }}>
                             <MaterialCommunityIcons
-                                name="coin"
+                                name="bitcoin"
                                 color="#f0ad16"
                                 size={28}
                             />
@@ -515,7 +517,7 @@ class OrderModal extends React.Component {
                     </View>
                     <View style={{ backgroundColor: '#fff', flexDirection: 'row', padding: 10 }}>
                         <MaterialCommunityIcons
-                            name="coin"
+                            name="bitcoin"
                             color="#e80e0e"
                             size={28}
                             style={{ width: '10%' }}
@@ -610,7 +612,7 @@ class OrderModal extends React.Component {
                 />
 
                 <Toast
-                    ref="toast"
+                    ref={this.toastRef}
                     style={{ backgroundColor: '#ff424e' }}
                     fadeOutDuration={1000}
                     opacity={0.9}

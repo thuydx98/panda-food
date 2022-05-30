@@ -200,7 +200,8 @@ class DetailModal extends React.Component {
                     style={styles.footer}
                     scrollEventThrottle={16}
                     onScroll={Animated.event(
-                        [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }]
+                        [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
+                        {useNativeDriver: false}
                     )}
                 >
                     <Image

@@ -165,6 +165,7 @@ class CartModal extends React.Component {
     }
 
     onOpenOrderModal() {
+        console.log(this.props.activeUser)
         if (this.props.activeUser) {
             this.orderModal.openModal(this.state.voucherSelected, this.props.coins, this.state.useCoin);;
         } else {
@@ -259,7 +260,7 @@ class CartModal extends React.Component {
                             </View>
                             <View style={{ flexDirection: 'row', borderTopColor: '#d4d4d4', borderTopWidth: 0.5, paddingVertical: 10 }}>
                                 <MaterialCommunityIcons
-                                    name="coin"
+                                    name="bitcoin"
                                     color="#f0ad16"
                                     size={28}
                                 />

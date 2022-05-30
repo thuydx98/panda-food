@@ -112,6 +112,7 @@ export default class AllReviewsModal extends React.Component {
                             onScroll={Animated.event(
                                 [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
                                 {
+                                    useNativeDriver: false,
                                     listener: event => {
                                         if (Platform.OS === 'android' && this.isCloseToBottom(event.nativeEvent)) {
                                             this.loadReviews()

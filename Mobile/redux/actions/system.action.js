@@ -9,7 +9,7 @@ const getCategories = () => {
                     dispatch(success(res.data));
                 }
             })
-            .catch(error => { });
+            .catch(error => console.log(error));
     };
 
     function success(categories) { return { type: systemConstants.GET_ALL_CATEGORIES, payload: categories } }

@@ -91,7 +91,7 @@ class OrderManagementModal extends React.Component {
 
         if (response.status === 200) {
             const order = this.state.listPendingStatus.find(ord => ord.id === orderId);
-            order.canceledTime = response.data.canceledTime;
+            order.canceledTime = response.data?.canceledTime;
 
             const listPending = this.state.listPendingStatus.filter(ord => ord.id !== orderId);
             const listCanceled = this.state.listCanceledStatus.unshift(order);

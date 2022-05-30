@@ -18,6 +18,7 @@ import ViewRatingModal from '../Review/ViewRatingModal';
 class OrderDetailModal extends React.Component {
     constructor(props) {
         super(props);
+        this.toastRef = React.createRef();
         this.state = {
             modalVisible: false,
             loading: false,
@@ -32,9 +33,9 @@ class OrderDetailModal extends React.Component {
         this.props.onRef(this);
         this.socket = io('http://10.0.2.2:4001');
         this.socket.emit('getOrder', 'order');
-        this.socket.on('document', data => {            
-            if(data.orderUserId === this.props.activeUser.id && data.orderId === this.state.order?.id) {
-                this.onLoadOrder(this.state.order.id, false);
+        this.socket.on('document', data => {       
+            if (data?.orderUserId === this.props.activeUser?.id && data?.orderId === this.state.order?.id) {
+                this.onLoadOrder(this.state.order?.id, false);
             } 
        });
     }
@@ -58,10 +59,10 @@ class OrderDetailModal extends React.Component {
     onLoadOrder = async (orderId = null, showLoading = true) => {
         this.setState({ refreshing: showLoading });
 
-        orderId = orderId != null ? orderId : this.state.order.id;
+        orderId = orderId != null ? orderId : this.state.order?.id;
         const [resOrder, resRating] = await Promise.all([
             orderService.getOrderById(orderId),
-            productService.getUserReviewsByOrderId(this.props.activeUser.id, orderId)
+            productService.getUserReviewsByOrderId(this.props.activeUser?.id, orderId)
         ]);
 
         if (resOrder.status === 200 && resRating.status === 200) {
@@ -72,7 +73,7 @@ class OrderDetailModal extends React.Component {
                 refreshing: false
             });
         } else {
-            this.refs.toast.show('Error! Please check your internet connection.', 2000);
+            this.toastRef.current.show('Error! Please check your internet connection.', 2000);
             this.setState({ loading: false, refreshing: false });
         }
     }
@@ -160,7 +161,7 @@ class OrderDetailModal extends React.Component {
                             onPress={() =>
                                 rating
                                     ? this.viewReviewModal.openModal(rating)
-                                    : this.addReviewModal.openModal(item.productId, this.props.activeUser.id, this._getFullName(), 0, this.state.order.id)
+                                    : this.addReviewModal.openModal(item.productId, this.props.activeUser.id, this._getFullName(), 0, this.state.order?.id)
                             }
                         />
                     }
@@ -189,7 +190,7 @@ class OrderDetailModal extends React.Component {
     }
 
     cancelOrder = async () => {
-        const response = await orderService.cancelOrder(this.state.order.id);
+        const response = await orderService.cancelOrder(this.state.order?.id);
         if (response.status === 200) {
             this.setState({
                 order: response.data,
@@ -200,11 +201,11 @@ class OrderDetailModal extends React.Component {
                 doc: 'There are canceled order',
                 type: 'New Order',
                 storeID: this.state.order.storeId,
-                orderId: this.state.order.id,
+                orderId: this.state.order?.id,
                 orderUserId: this.state.order.userId
             });
         } else {
-            this.refs.toast.show('Error! Please check your internet connection.', 2000);
+            this.toastRef.current.show('Error! Please check your internet connection.', 2000);
             this.setState({ loading: false });
         }
     }
@@ -214,7 +215,7 @@ class OrderDetailModal extends React.Component {
         if (!this.props.stateGetProducts.products || this.props.stateGetProducts.products?.length === 0) {
             await this.props.getProducts();
             if (!this.props.stateGetProducts.isSuccess) {
-                this.refs.toast.show('Error! Please check your internet connection.', 2000);
+                this.toastRef.current.show('Error! Please check your internet connection.', 2000);
                 this.setState({ loading: false });
             }
         }
@@ -380,7 +381,7 @@ class OrderDetailModal extends React.Component {
 
                         <View style={{ backgroundColor: '#fff', flexDirection: 'row', padding: 10 }}>
                             <MaterialCommunityIcons
-                                name="coin"
+                                name="bitcoin"
                                 color="#e80e0e"
                                 size={28}
                                 style={{ width: '10%' }}
@@ -453,7 +454,7 @@ class OrderDetailModal extends React.Component {
 
                         <View style={{ flexDirection: 'row', paddingVertical: 10, backgroundColor: '#fff', paddingHorizontal: 10, marginBottom: 10 }}>
                             <MaterialCommunityIcons
-                                name="coin"
+                                name="bitcoin"
                                 color="#f0ad16"
                                 size={28}
                             />
@@ -516,7 +517,7 @@ class OrderDetailModal extends React.Component {
                             <View style={{ flexDirection: 'row', paddingBottom: 5, paddingTop: 3 }}>
                                 <Text style={{ width: '60%', paddingRight: 10 }}>Order ID:</Text>
                                 <Text style={{ width: '40%', textAlign: 'right' }}>
-                                    {this.state.order.id}
+                                    {this.state.order?.id}
                                 </Text>
                             </View>
                             <View style={{ flexDirection: 'row', paddingVertical: 3 }}>
@@ -602,7 +603,7 @@ class OrderDetailModal extends React.Component {
                 />
 
                 <Toast
-                    ref="toast"
+                    ref={this.toastRef}
                     style={{ backgroundColor: '#ff424e' }}
                     fadeOutDuration={1000}
                     opacity={0.9}

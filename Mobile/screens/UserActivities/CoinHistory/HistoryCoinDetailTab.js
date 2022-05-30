@@ -29,7 +29,7 @@ export default class HistoryCoinDetailTab extends React.Component {
                             style={styles.content}
                         >
                             <MaterialCommunityIcons
-                                name="coin"
+                                name="bitcoin"
                                 color={act.isUsed ? "#bdbdbd" : "#f0ad16"}
                                 size={50}
                                 style={{ width: 60 }}

@@ -19,7 +19,7 @@ const getListWardByDistrictId = (districtId) => {
 }
 
 const getLocationByAddress = (address) => {
-    const URL = 'https://api.opencagedata.com/geocode/v1/json?key=e9f5f181e2804424b98dd54172773eee&q=' + address;
+    const URL = 'https://api.opencagedata.com/geocode/v1/json?key=dd14d93816f341ab85f309637b36ccd2&q=' + address;
     return axios.get(URL);
 }
 
