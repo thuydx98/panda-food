@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Text, Dimensions, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Dimensions } from 'react-native';
 import { connect } from 'react-redux';
 import MapView, { ProviderPropType, Marker, AnimatedRegion, } from 'react-native-maps';
 

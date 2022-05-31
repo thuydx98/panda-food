@@ -155,6 +155,7 @@ services:
   db:
     container_name: csms-sql-server
     image: mcr.microsoft.com/mssql/server:2019-latest
+    user: root
     restart: always
     ports:
       - 1433:1433

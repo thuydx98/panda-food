@@ -32,11 +32,11 @@ export default class SelectAddressModal extends React.Component {
             locationService.getListProvince(),
             storeService.getEnableProvinces()
         ]);
-
+console.log(resProvince.data)
         if (resProvince.status === 200 && resEP.status === 200) {
             const provinces = resProvince.data.filter(province => {
                 return resEP.data.some(enableP => {
-                    return enableP === province.name
+                    return enableP === province.name.replace("Thành phố ", '').replace("Tỉnh ", '')
                 })
             });
 
@@ -79,7 +79,7 @@ export default class SelectAddressModal extends React.Component {
         });
 
         const province = this.state.provinces.find(item => item.name === provinceName);
-        const response = await locationService.getListDistrictByProvinceId(province.id);
+        const response = await locationService.getListDistrictByProvinceId(province.code);
 
         if (response.status === 200) {
             this.setState({
